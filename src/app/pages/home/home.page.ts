@@ -1,5 +1,4 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
   IonButton,
@@ -17,13 +16,12 @@ import {
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { heart, location, playCircle, time } from 'ionicons/icons';
-import { CHURCH_INFO, SERVICE_TIMES } from '../../data/church-data';
+import { CHURCH_INFO, OFFICE_HOURS } from '../../data/church-data';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
-    CommonModule,
     IonHeader,
     IonToolbar,
     IonContent,
@@ -58,10 +56,17 @@ import { CHURCH_INFO, SERVICE_TIMES } from '../../data/church-data';
             <ion-card-title>{{ church.tagline }}</ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            <p>{{ church.welcome }}</p>
-            <p class="countdown" *ngIf="countdown">
-              Next service in <strong>{{ countdown }}</strong>
-            </p>
+            <p class="vision-title">{{ church.visionTitle }}</p>
+            <p lang="am" class="vision-quote">{{ church.vision }}</p>
+            <ion-button
+              expand="block"
+              color="primary"
+              [href]="church.website"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Get Involved Today!
+            </ion-button>
             <ion-button expand="block" color="primary" routerLink="/tabs/give">
               <ion-icon name="heart" slot="start"></ion-icon>
               Give
@@ -74,14 +79,14 @@ import { CHURCH_INFO, SERVICE_TIMES } from '../../data/church-data';
         </ion-card>
 
         <!-- Service times -->
-        <h2 class="section-title">Service Times</h2>
+        <h2 class="section-title">Hours</h2>
         <ion-list>
-          @for (service of serviceTimes; track service.day) {
+          @for (hour of officeHours; track hour.day) {
             <ion-item>
               <ion-icon name="time" slot="start" color="primary"></ion-icon>
               <ion-label>
-                <h2>{{ service.day }} — {{ service.time }}</h2>
-                <p>{{ service.note }}</p>
+                <h2>{{ hour.day }}</h2>
+                <p>{{ hour.hours }}</p>
               </ion-label>
             </ion-item>
           }
@@ -95,21 +100,19 @@ import { CHURCH_INFO, SERVICE_TIMES } from '../../data/church-data';
               <ion-icon name="location" color="primary"></ion-icon>
               {{ church.address }}
             </p>
-            <p class="muted">{{ church.phone }} · {{ church.email }}</p>
-            <p class="muted">
-              TODO: replace the address above, then add a map link / directions
-              button here.
-            </p>
+            @for (phone of church.phones; track phone.href) {
+              <p><a class="contact-link" [href]="phone.href">{{ phone.label }}</a></p>
+            }
           </ion-card-content>
         </ion-card>
 
         <!-- Quick actions -->
         <h2 class="section-title">Plan Your Visit</h2>
+        <ion-button expand="block" fill="outline" routerLink="/tabs/more">
+          About, Ministries &amp; Contact
+        </ion-button>
         <ion-button expand="block" fill="outline" routerLink="/tabs/events">
           See This Week’s Events
-        </ion-button>
-        <ion-button expand="block" fill="outline" routerLink="/tabs/more">
-          About, Ministries &amp; Prayer
         </ion-button>
       </div>
     </ion-content>
@@ -131,6 +134,14 @@ import { CHURCH_INFO, SERVICE_TIMES } from '../../data/church-data';
       .hero p {
         color: var(--church-hero-text);
       }
+      .hero .vision-title {
+        font-weight: 700;
+        margin-bottom: 4px;
+      }
+      .hero .vision-quote {
+        white-space: pre-line;
+        line-height: 1.65;
+      }
       .hero ion-button[color='primary'] {
         --background: var(--ion-color-secondary);
         --border-color: var(--ion-color-secondary);
@@ -140,57 +151,14 @@ import { CHURCH_INFO, SERVICE_TIMES } from '../../data/church-data';
         --border-color: var(--church-hero-text);
         --color: var(--church-hero-text);
       }
-      .countdown {
-        font-size: 1.05rem;
-        margin-top: 12px;
-      }
     `,
   ],
 })
-export class HomePage implements OnInit, OnDestroy {
+export class HomePage {
   church = CHURCH_INFO;
-  serviceTimes = SERVICE_TIMES;
-  countdown = '';
-  private timer: ReturnType<typeof setInterval> | undefined;
+  officeHours = OFFICE_HOURS;
 
   constructor() {
     addIcons({ heart, playCircle, time, location });
-  }
-
-  ngOnInit(): void {
-    this.updateCountdown();
-    this.timer = setInterval(() => this.updateCountdown(), 1000);
-  }
-
-  ngOnDestroy(): void {
-    if (this.timer) clearInterval(this.timer);
-  }
-
-  /** Next service: Sunday 10:00 AM or Wednesday 7:00 PM, whichever is next. */
-  private updateCountdown(): void {
-    const now = new Date();
-    const candidates: Date[] = [];
-    // Sunday = 0, Wednesday = 3
-    for (const [day, hour] of [
-      [0, 10],
-      [3, 19],
-    ] as const) {
-      const d = new Date(now);
-      d.setDate(now.getDate() + ((day - now.getDay() + 7) % 7));
-      d.setHours(hour, 0, 0, 0);
-      if (d.getTime() <= now.getTime()) d.setDate(d.getDate() + 7);
-      candidates.push(d);
-    }
-    const next = candidates.sort((a, b) => a.getTime() - b.getTime())[0];
-    const diff = next.getTime() - now.getTime();
-    const days = Math.floor(diff / 86_400_000);
-    const hours = Math.floor((diff % 86_400_000) / 3_600_000);
-    const mins = Math.floor((diff % 3_600_000) / 60_000);
-    const secs = Math.floor((diff % 60_000) / 1000);
-    const dayLabel = next.toLocaleDateString(undefined, { weekday: 'long' });
-    this.countdown = `${dayLabel} ${next.toLocaleTimeString(undefined, {
-      hour: 'numeric',
-      minute: '2-digit',
-    })} — ${days}d ${hours}h ${mins}m ${secs}s`;
   }
 }

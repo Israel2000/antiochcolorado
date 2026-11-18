@@ -20,6 +20,7 @@ import {
 import {
   CHURCH_INFO,
   MINISTRIES,
+  OFFICE_HOURS,
   STAFF,
 } from '../../data/church-data';
 
@@ -59,25 +60,39 @@ import {
 
     <ion-content>
       <div class="page-pad">
-        <!-- About / Beliefs -->
-        <h2 class="section-title">About {{ church.name }}</h2>
+        <h2 class="section-title">About Antioch Colorado</h2>
         <ion-card>
+          <img
+            class="church-photo"
+            src="https://img1.wsimg.com/isteam/ip/40b00a17-ffb8-4038-941d-60fe2a0c282f/Antioch%20Church%20COLORADO.png/:/cr=t:5.53%25,l:0%25,w:100%25,h:88.93%25/rs=w:600,h:300,cg:true"
+            alt="Antioch Church of Colorado"
+            loading="eager"
+          />
+          <ion-card-header>
+            <ion-card-title>{{ church.visionTitle }}</ion-card-title>
+          </ion-card-header>
           <ion-card-content>
-            <p>{{ church.welcome }}</p>
-            <p class="muted">
-              {{ church.address }} · {{ church.phone }} · {{ church.email }}
-            </p>
+            <p lang="am" class="vision-quote">{{ church.vision }}</p>
           </ion-card-content>
         </ion-card>
 
-        <h2 class="section-title">What We Believe</h2>
-        <ion-list>
-          @for (belief of church.beliefs; track belief) {
-            <ion-item>
-              <ion-label>{{ belief }}</ion-label>
-            </ion-item>
-          }
-        </ion-list>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>{{ church.missionTitle }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <p lang="am">{{ church.mission }}</p>
+          </ion-card-content>
+        </ion-card>
+        <ion-button
+          expand="block"
+          color="primary"
+          [href]="church.website"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Get Involved Today!
+        </ion-button>
 
         <!-- Ministries -->
         <h2 class="section-title">Ministries</h2>
@@ -154,21 +169,63 @@ import {
         }
 
         <!-- Contact -->
-        <h2 class="section-title">Contact</h2>
+        <h2 class="section-title">Contact Us</h2>
         <ion-card>
+          <ion-card-header>
+            <ion-card-title>Questions or Comments</ion-card-title>
+          </ion-card-header>
           <ion-card-content>
+            <p>
+              For questions or comments, visit our website and send us a
+              message. We will do our best to get back to you soon!
+            </p>
+            <h3>{{ church.name }}</h3>
             <p>{{ church.address }}</p>
-            <p>{{ church.phone }}</p>
-            <p>{{ church.email }}</p>
-            <p class="muted">{{ church.website }}</p>
+            @for (phone of church.phones; track phone.href) {
+              <p>
+                <a class="contact-link" [href]="phone.href">{{
+                  phone.label
+                }}</a>
+              </p>
+            }
+            <ion-button
+              expand="block"
+              fill="outline"
+              [href]="church.website"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Visit Website
+            </ion-button>
+            <h3>Hours</h3>
+            @for (hour of officeHours; track hour.day) {
+              <p><strong>{{ hour.day }}</strong> · {{ hour.hours }}</p>
+            }
           </ion-card-content>
         </ion-card>
       </div>
     </ion-content>
   `,
+  styles: [
+    `
+      .church-photo {
+        display: block;
+        width: 100%;
+        max-height: 300px;
+        object-fit: cover;
+      }
+
+      .vision-quote {
+        white-space: pre-line;
+        font-size: 1.1rem;
+        line-height: 1.7;
+      }
+    `,
+  ],
 })
 export class MorePage {
   church = CHURCH_INFO;
+  officeHours = OFFICE_HOURS;
   ministries = MINISTRIES;
   staff = STAFF;
   prayerName = '';

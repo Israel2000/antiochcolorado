@@ -1,16 +1,15 @@
 /**
- * Single place to swap in real church content.
+ * Church and sample content shown in the app.
  *
- * TODO (Israel): replace every placeholder below with the real church's
- * name, address, times, sermon links, events, ministries and staff.
+ * Keep the verified church details current. Replace sample sermon, event,
+ * ministry and staff content as the church provides updates.
  * Later, move this data behind an API (Node/Express + PostgreSQL) so the
  * pastor can edit it from an admin screen instead of in code.
  */
 
-export interface ServiceTime {
+export interface OfficeHour {
   day: string;
-  time: string;
-  note: string;
+  hours: string;
 }
 
 export interface Sermon {
@@ -55,27 +54,30 @@ export interface GivingFund {
 }
 
 export const CHURCH_INFO = {
-  // TODO: replace with the real church name
-  name: '[Church Name]',
-  tagline: 'A place to belong, believe, and become.',
-  address: '[Street Address], [City, State ZIP]',
-  city: '[City, State]',
-  phone: '(555) 000-0000',
-  email: 'hello@[church].org',
-  website: 'https://[church].org',
-  welcome:
-    'Whether you are new to faith, new to the area, or looking for a church home — you are welcome here.',
-  beliefs: [
-    'We believe in one God — Father, Son, and Holy Spirit.',
-    'We believe the Bible is God’s Word, true and trustworthy.',
-    'We believe Jesus died and rose again so we can have new life.',
-    'We believe the Church is called to love our neighbours and share hope.',
+  name: 'Antioch Church of Colorado',
+  tagline: 'Welcome to Antioch Church of Colorado',
+  address: '14100 East Jewell Avenue, Aurora, Colorado 80012, United States',
+  phones: [
+    { label: '(720) 434-1126', href: 'tel:+17204341126' },
+    { label: '(720) 207-7720', href: 'tel:+17202077720' },
   ],
+  website: 'https://antiochcolorado.com/',
+  visionTitle: 'ራዕያችን Our Vision',
+  vision:
+    '“የክርስቶስ ቤተስብ ሁሉ\nበፍቅር ተያይዞ በእውነት አድጎ\nበትህትና ሲያገለግል ማየት”',
+  missionTitle: 'ተልዕኮአችን Our Mission',
+  mission:
+    'በኮሎራዶ በአካባቢውና በዓለም ዙሪያ ለሰው ልጆች ሁሉ የክርስቶስን ወንጌል በማሰራጨትና በማስታጠቅ መንግስቱን በማስፋት እግዚአብሔርን ማክበር ነው።',
 };
 
-export const SERVICE_TIMES: ServiceTime[] = [
-  { day: 'Sunday', time: '10:00 AM', note: 'Worship Service + Kids Church' },
-  { day: 'Wednesday', time: '7:00 PM', note: 'Midweek Bible Study & Prayer' },
+export const OFFICE_HOURS: OfficeHour[] = [
+  { day: 'Monday', hours: 'Closed' },
+  { day: 'Tuesday', hours: '09:00 AM – 12:00 PM' },
+  { day: 'Wednesday', hours: 'Closed' },
+  { day: 'Thursday', hours: '06:30 PM – 08:00 PM' },
+  { day: 'Friday', hours: 'Closed' },
+  { day: 'Saturday', hours: 'Closed' },
+  { day: 'Sunday', hours: '02:30 PM – 04:30 PM' },
 ];
 
 export const SAMPLE_SERMONS: Sermon[] = [

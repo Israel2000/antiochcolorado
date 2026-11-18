@@ -15,7 +15,7 @@ import {
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { play } from 'ionicons/icons';
-import { SAMPLE_SERMONS } from '../../data/church-data';
+import { CHURCH_INFO, SAMPLE_SERMONS } from '../../data/church-data';
 
 @Component({
   selector: 'app-sermons',
@@ -93,7 +93,7 @@ import { SAMPLE_SERMONS } from '../../data/church-data';
 })
 export class SermonsPage {
   sermons = SAMPLE_SERMONS;
-  churchName = '[Church Name]';
+  churchName = CHURCH_INFO.name;
   notice = '';
 
   constructor() {
