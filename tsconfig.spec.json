@@ -1,0 +1,1 @@
+{"compilerOptions":{"outDir":"./dist/out-tsc","types":["jasmine"]},"extends":"./tsconfig.json","include":["src/**/*.spec.ts","src/**/*.d.ts"]}

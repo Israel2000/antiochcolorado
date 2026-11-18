@@ -1,0 +1,205 @@
+/**
+ * Single place to swap in real church content.
+ *
+ * TODO (Israel): replace every placeholder below with the real church's
+ * name, address, times, sermon links, events, ministries and staff.
+ * Later, move this data behind an API (Node/Express + PostgreSQL) so the
+ * pastor can edit it from an admin screen instead of in code.
+ */
+
+export interface ServiceTime {
+  day: string;
+  time: string;
+  note: string;
+}
+
+export interface Sermon {
+  id: number;
+  title: string;
+  speaker: string;
+  date: string;
+  duration: string;
+  scripture: string;
+  description: string;
+  /** YouTube watch URL or audio MP3 URL — leave '' until the church provides one. */
+  mediaUrl: string;
+}
+
+export interface ChurchEvent {
+  id: number;
+  title: string;
+  date: string;
+  time: string;
+  location: string;
+  category: string;
+  description: string;
+}
+
+export interface Ministry {
+  name: string;
+  leader: string;
+  meetingTime: string;
+  description: string;
+}
+
+export interface StaffMember {
+  name: string;
+  role: string;
+  bio: string;
+}
+
+export interface GivingFund {
+  id: string;
+  label: string;
+  description: string;
+}
+
+export const CHURCH_INFO = {
+  // TODO: replace with the real church name
+  name: '[Church Name]',
+  tagline: 'A place to belong, believe, and become.',
+  address: '[Street Address], [City, State ZIP]',
+  city: '[City, State]',
+  phone: '(555) 000-0000',
+  email: 'hello@[church].org',
+  website: 'https://[church].org',
+  welcome:
+    'Whether you are new to faith, new to the area, or looking for a church home — you are welcome here.',
+  beliefs: [
+    'We believe in one God — Father, Son, and Holy Spirit.',
+    'We believe the Bible is God’s Word, true and trustworthy.',
+    'We believe Jesus died and rose again so we can have new life.',
+    'We believe the Church is called to love our neighbours and share hope.',
+  ],
+};
+
+export const SERVICE_TIMES: ServiceTime[] = [
+  { day: 'Sunday', time: '10:00 AM', note: 'Worship Service + Kids Church' },
+  { day: 'Wednesday', time: '7:00 PM', note: 'Midweek Bible Study & Prayer' },
+];
+
+export const SAMPLE_SERMONS: Sermon[] = [
+  {
+    id: 1,
+    title: 'Faith That Moves',
+    speaker: 'Pastor [Last Name]',
+    date: 'Nov 16, 2026',
+    duration: '38 min',
+    scripture: 'Hebrews 11:1',
+    description: 'What it looks like to trust God before you see the outcome.',
+    mediaUrl: '',
+  },
+  {
+    id: 2,
+    title: 'The God Who Provides',
+    speaker: 'Pastor [Last Name]',
+    date: 'Nov 9, 2026',
+    duration: '41 min',
+    scripture: 'Philippians 4:19',
+    description: 'God’s provision in seasons of waiting and in seasons of plenty.',
+    mediaUrl: '',
+  },
+  {
+    id: 3,
+    title: 'Love Your Neighbour',
+    speaker: 'Guest Speaker',
+    date: 'Nov 2, 2026',
+    duration: '35 min',
+    scripture: 'Mark 12:31',
+    description: 'Practical love — in our homes, our streets, and our city.',
+    mediaUrl: '',
+  },
+];
+
+export const SAMPLE_EVENTS: ChurchEvent[] = [
+  {
+    id: 1,
+    title: 'Sunday Worship Service',
+    date: 'Sun, Nov 22, 2026',
+    time: '10:00 AM',
+    location: 'Main Sanctuary',
+    category: 'Worship',
+    description: 'Join us for worship, teaching, and communion.',
+  },
+  {
+    id: 2,
+    title: 'Community Thanksgiving Dinner',
+    date: 'Thu, Nov 26, 2026',
+    time: '5:00 PM',
+    location: 'Fellowship Hall',
+    category: 'Community',
+    description: 'A free meal for neighbours, friends, and families. All are welcome.',
+  },
+  {
+    id: 3,
+    title: 'Youth Night',
+    date: 'Fri, Nov 27, 2026',
+    time: '6:30 PM',
+    location: 'Youth Room',
+    category: 'Youth',
+    description: 'Games, worship, and a short message for middle & high schoolers.',
+  },
+  {
+    id: 4,
+    title: 'Christmas Choir Rehearsal',
+    date: 'Wed, Dec 2, 2026',
+    time: '7:00 PM',
+    location: 'Choir Room',
+    category: 'Music',
+    description: 'All singers welcome — no audition needed.',
+  },
+];
+
+export const MINISTRIES: Ministry[] = [
+  {
+    name: 'Kids Church',
+    leader: '[Leader Name]',
+    meetingTime: 'Sundays, 10:00 AM',
+    description: 'Safe, joyful teaching for kids ages 3–11 during the service.',
+  },
+  {
+    name: 'Youth Group',
+    leader: '[Leader Name]',
+    meetingTime: 'Fridays, 6:30 PM',
+    description: 'Middle & high schoolers — friendship, worship, and real talk.',
+  },
+  {
+    name: 'Outreach & Food Pantry',
+    leader: '[Leader Name]',
+    meetingTime: 'Saturdays, 9:00 AM',
+    description: 'Serving neighbours with groceries, prayer, and practical help.',
+  },
+  {
+    name: 'Worship Team',
+    leader: '[Leader Name]',
+    meetingTime: 'Thursdays, 7:00 PM',
+    description: 'Musicians and singers leading the church in worship.',
+  },
+];
+
+export const STAFF: StaffMember[] = [
+  {
+    name: 'Pastor [First Last]',
+    role: 'Lead Pastor',
+    bio: '[Short bio — replace with the real pastor’s story and photo.]',
+  },
+  {
+    name: '[First Last]',
+    role: 'Worship Leader',
+    bio: '[Short bio.]',
+  },
+  {
+    name: '[First Last]',
+    role: 'Kids Ministry Director',
+    bio: '[Short bio.]',
+  },
+];
+
+export const GIVING_FUNDS: GivingFund[] = [
+  { id: 'tithe', label: 'Tithe', description: 'Regular giving to the church' },
+  { id: 'offering', label: 'Offering', description: 'General offering' },
+  { id: 'missions', label: 'Missions', description: 'Local & global missions' },
+  { id: 'building', label: 'Building Fund', description: 'Facility & building needs' },
+];
+
+export const GIVING_AMOUNTS = [10, 25, 50, 100];

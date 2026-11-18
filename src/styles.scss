@@ -1,0 +1,44 @@
+/* Church theme (warm, clean) — @use must come first in Sass */
+@use './theme/variables.scss';
+
+/* Ionic CSS — required core styles. See https://ionicframework.com/docs/theming/css-variables */
+@import '@ionic/angular/css/core.css';
+@import '@ionic/angular/css/normalize.css';
+@import '@ionic/angular/css/structure.css';
+@import '@ionic/angular/css/typography.css';
+@import '@ionic/angular/css/display.css';
+@import '@ionic/angular/css/padding.css';
+@import '@ionic/angular/css/float-elements.css';
+@import '@ionic/angular/css/text-alignment.css';
+@import '@ionic/angular/css/text-transformation.css';
+@import '@ionic/angular/css/flex-utils.css';
+
+ion-content {
+  --background: var(--ion-background-color);
+}
+
+.brand-logo {
+  display: block;
+  width: 136px;
+  height: 48px;
+  margin-inline-start: 8px;
+  padding: 3px 4px;
+  border-radius: 4px;
+  background: #ffffff;
+  box-sizing: border-box;
+  object-fit: contain;
+}
+
+.page-pad {
+  padding: 16px 16px 32px;
+}
+
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 24px 4px 8px;
+}
+
+.muted {
+  color: var(--ion-color-medium);
+}
