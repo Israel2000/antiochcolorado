@@ -205,3 +205,59 @@ export const GIVING_FUNDS: GivingFund[] = [
 ];
 
 export const GIVING_AMOUNTS = [10, 25, 50, 100];
+
+export interface LiveStream {
+  isLive: boolean;
+  title: string;
+  /** Stream watch URL — leave '' until the church provides one. */
+  url: string;
+  nextLiveLabel: string;
+}
+
+export const LIVE_STREAM: LiveStream = {
+  isLive: false,
+  title: 'Sunday Worship Service',
+  url: '',
+  nextLiveLabel: 'Sunday 2:30 PM',
+};
+
+export interface DailyVerse {
+  text: string;
+  reference: string;
+}
+
+/** KJV wording (public domain). Picked by day-of-year so it changes daily. */
+export const DAILY_VERSES: DailyVerse[] = [
+  {
+    text: 'For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.',
+    reference: 'John 3:16',
+  },
+  {
+    text: 'The LORD is my shepherd; I shall not want.',
+    reference: 'Psalm 23:1',
+  },
+  {
+    text: 'I can do all things through Christ which strengtheneth me.',
+    reference: 'Philippians 4:13',
+  },
+  {
+    text: 'For I know the thoughts that I think toward you, saith the LORD, thoughts of peace, and not of evil, to give you an expected end.',
+    reference: 'Jeremiah 29:11',
+  },
+  {
+    text: 'Trust in the LORD with all thine heart; and lean not unto thine own understanding. In all thy ways acknowledge him, and he shall direct thy paths.',
+    reference: 'Proverbs 3:5-6',
+  },
+  {
+    text: 'And we know that all things work together for good to them that love God, to them who are the called according to his purpose.',
+    reference: 'Romans 8:28',
+  },
+  {
+    text: 'Fear thou not; for I am with thee: be not dismayed; for I am thy God: I will strengthen thee; yea, I will help thee; yea, I will uphold thee with the right hand of my righteousness.',
+    reference: 'Isaiah 41:10',
+  },
+  {
+    text: 'God is our refuge and strength, a very present help in trouble.',
+    reference: 'Psalm 46:1',
+  },
+];
