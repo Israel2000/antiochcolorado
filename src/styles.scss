@@ -28,17 +28,38 @@ ion-header ion-toolbar {
 }
 
 /* Desktop: keep the phone-app layout in a centred phone-width column
-   instead of stretching full-width. Phones stay full-width as normal. */
+   instead of stretching full-width. Phones stay full-width as normal.
+   Root cause of the broken scrolling (Nov 18): constraining ion-app with
+   only max-width + height:100dvh did NOT make it the positioning context
+   for Ionic's absolutely-positioned layers (ion-router-outlet, ion-tabs,
+   .ion-page, ion-content's inner scroll). Those layers positioned
+   themselves against <body> (position:fixed, full viewport) instead of
+   the 480px column, so ion-content's scroll container never got a
+   definite height inside the column and wheel / Page Down / scrollbar
+   drag moved 0px, while focus scroll-into-view could still nudge it.
+   Fix: make app-root AND ion-app positioned, display:block, with an
+   explicit height:100% chain (body is height:100% via Ionic), so every
+   absolute layer is contained by the column and ion-content gets a
+   real, viewport-sized scroll area. No 100dvh here: it can size
+   differently from the fixed body and push the tab bar off-screen. */
 @media (min-width: 560px) {
   body {
     background: #e9ded2;
   }
 
+  app-root,
   ion-app {
+    position: relative;
+    display: block;
+    height: 100%;
     max-width: 480px;
     margin: 0 auto;
+  }
+
+  ion-app {
+    overflow: hidden;
+    background: var(--ion-background-color);
     box-shadow: 0 0 40px rgba(43, 33, 24, 0.25);
-    height: 100dvh;
   }
 }
 
