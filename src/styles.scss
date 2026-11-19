@@ -17,6 +17,31 @@ ion-content {
   --background: var(--ion-background-color);
 }
 
+/* Solid headers (not see-through) so the header never overlaps content
+   scrolling underneath it. */
+ion-header {
+  z-index: 10;
+}
+
+ion-header ion-toolbar {
+  --background: var(--ion-toolbar-background);
+}
+
+/* Desktop: keep the phone-app layout in a centred phone-width column
+   instead of stretching full-width. Phones stay full-width as normal. */
+@media (min-width: 560px) {
+  body {
+    background: #e9ded2;
+  }
+
+  ion-app {
+    max-width: 480px;
+    margin: 0 auto;
+    box-shadow: 0 0 40px rgba(43, 33, 24, 0.25);
+    height: 100dvh;
+  }
+}
+
 .brand-logo {
   display: block;
   width: 136px;

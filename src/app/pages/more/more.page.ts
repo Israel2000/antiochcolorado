@@ -46,7 +46,7 @@ import {
     IonButton,
   ],
   template: `
-    <ion-header>
+    <ion-header [translucent]="false">
       <ion-toolbar>
         <img
           slot="start"
@@ -161,8 +161,9 @@ import {
                 Submit Prayer Request
               </ion-button>
               <p class="muted">
-                Saved on this device only for now — connect it to the backend
-                / church email later so the prayer team actually receives it.
+                Your request is saved on this device for now. Once the church
+                connects prayer requests, the prayer team will receive it
+                directly.
               </p>
             </ion-card-content>
           </ion-card>
@@ -212,7 +213,13 @@ import {
         display: block;
         width: 100%;
         max-height: 300px;
+        min-height: 120px;
         object-fit: cover;
+        background: linear-gradient(
+          135deg,
+          var(--church-hero-start),
+          var(--church-hero-end)
+        );
       }
 
       .vision-quote {
@@ -234,11 +241,23 @@ export class MorePage {
 
   submitPrayer(): void {
     if (!this.prayerRequest.trim()) return;
-    // TODO: POST to backend / email the prayer team. Local state only for now.
-    console.info('[Prayer] request (local only):', {
-      name: this.prayerName,
-      request: this.prayerRequest,
-    });
+    // Saved on this device only for now. Later this will be sent to the
+    // prayer team (backend / church email) — see the project notes.
+    try {
+      const saved: { name: string; request: string; date: string }[] =
+        JSON.parse(localStorage.getItem('antioch-prayer-requests') ?? '[]');
+      saved.push({
+        name: this.prayerName.trim(),
+        request: this.prayerRequest.trim(),
+        date: new Date().toISOString(),
+      });
+      localStorage.setItem(
+        'antioch-prayer-requests',
+        JSON.stringify(saved),
+      );
+    } catch {
+      // If storage is unavailable, the on-screen confirmation still shows.
+    }
     this.prayerSent = true;
     this.prayerName = '';
     this.prayerRequest = '';

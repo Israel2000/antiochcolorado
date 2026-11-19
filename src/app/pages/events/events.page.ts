@@ -31,7 +31,7 @@ import { SAMPLE_EVENTS } from '../../data/church-data';
     IonButton,
   ],
   template: `
-    <ion-header>
+    <ion-header [translucent]="false">
       <ion-toolbar>
         <img
           slot="start"
@@ -46,8 +46,8 @@ import { SAMPLE_EVENTS } from '../../data/church-data';
     <ion-content>
       <div class="page-pad">
         <p class="muted">
-          What’s happening at the church. RSVPs are saved on this device only
-          for now — wire them to the backend later.
+          What’s happening at Antioch Church of Colorado. RSVPs are saved on
+          this device for now.
         </p>
 
         @for (event of events; track event.id) {
@@ -77,7 +77,15 @@ import { SAMPLE_EVENTS } from '../../data/church-data';
 })
 export class EventsPage {
   events = SAMPLE_EVENTS;
-  private rsvps = new Set<number>();
+  private rsvps = new Set<number>(EventsPage.loadRsvps());
+
+  private static loadRsvps(): number[] {
+    try {
+      return JSON.parse(localStorage.getItem('antioch-rsvps') ?? '[]');
+    } catch {
+      return [];
+    }
+  }
 
   isRsvped(id: number): boolean {
     return this.rsvps.has(id);
@@ -86,5 +94,13 @@ export class EventsPage {
   toggleRsvp(id: number): void {
     if (this.rsvps.has(id)) this.rsvps.delete(id);
     else this.rsvps.add(id);
+    try {
+      localStorage.setItem(
+        'antioch-rsvps',
+        JSON.stringify([...this.rsvps]),
+      );
+    } catch {
+      // RSVP state still shows on screen even if storage is unavailable.
+    }
   }
 }

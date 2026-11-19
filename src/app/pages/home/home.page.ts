@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   IonButton,
   IonCard,
@@ -34,10 +34,9 @@ import { CHURCH_INFO, OFFICE_HOURS } from '../../data/church-data';
     IonLabel,
     IonIcon,
     IonButton,
-    RouterLink,
   ],
   template: `
-    <ion-header>
+    <ion-header [translucent]="false">
       <ion-toolbar>
         <img
           slot="start"
@@ -67,11 +66,11 @@ import { CHURCH_INFO, OFFICE_HOURS } from '../../data/church-data';
             >
               Get Involved Today!
             </ion-button>
-            <ion-button expand="block" color="primary" routerLink="/tabs/give">
+            <ion-button expand="block" color="primary" (click)="goTo('give')">
               <ion-icon name="heart" slot="start"></ion-icon>
               Give
             </ion-button>
-            <ion-button expand="block" fill="outline" routerLink="/tabs/sermons">
+            <ion-button expand="block" fill="outline" (click)="goTo('sermons')">
               <ion-icon name="play-circle" slot="start"></ion-icon>
               Watch Sermons
             </ion-button>
@@ -103,15 +102,18 @@ import { CHURCH_INFO, OFFICE_HOURS } from '../../data/church-data';
             @for (phone of church.phones; track phone.href) {
               <p><a class="contact-link" [href]="phone.href">{{ phone.label }}</a></p>
             }
+            <ion-button fill="outline" (click)="openDirections()">
+              Get Directions
+            </ion-button>
           </ion-card-content>
         </ion-card>
 
         <!-- Quick actions -->
         <h2 class="section-title">Plan Your Visit</h2>
-        <ion-button expand="block" fill="outline" routerLink="/tabs/more">
+        <ion-button expand="block" fill="outline" (click)="goTo('more')">
           About, Ministries &amp; Contact
         </ion-button>
-        <ion-button expand="block" fill="outline" routerLink="/tabs/events">
+        <ion-button expand="block" fill="outline" (click)="goTo('events')">
           See This Week’s Events
         </ion-button>
       </div>
@@ -126,6 +128,7 @@ import { CHURCH_INFO, OFFICE_HOURS } from '../../data/church-data';
           var(--church-hero-end)
         );
         color: var(--church-hero-text);
+        min-height: 220px;
       }
       .hero ion-card-title {
         color: var(--church-hero-text);
@@ -157,8 +160,22 @@ import { CHURCH_INFO, OFFICE_HOURS } from '../../data/church-data';
 export class HomePage {
   church = CHURCH_INFO;
   officeHours = OFFICE_HOURS;
+  private router = inject(Router);
 
   constructor() {
     addIcons({ heart, playCircle, time, location });
+  }
+
+  /** Tab buttons navigate explicitly so they work even if a link is missed. */
+  goTo(tab: 'give' | 'sermons' | 'events' | 'more'): void {
+    void this.router.navigate(['/tabs', tab]);
+  }
+
+  openDirections(): void {
+    const query = encodeURIComponent(this.church.address);
+    window.open(
+      `https://www.google.com/maps/search/?api=1&query=${query}`,
+      '_blank',
+    );
   }
 }

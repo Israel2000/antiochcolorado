@@ -55,7 +55,7 @@ import {
     IonSelectOption,
   ],
   template: `
-    <ion-header>
+    <ion-header [translucent]="false">
       <ion-toolbar>
         <img
           slot="start"
@@ -83,8 +83,8 @@ import {
               <p>{{ confirmation.message }}</p>
               <p>Reference: {{ confirmation.reference }}</p>
               <p class="muted">
-                Demo mode: no payment was taken. Connect Stripe Checkout or
-                Tithe.ly (see GivingService) to take real gifts.
+                This is a preview — no payment was taken. Real giving will
+                be connected by the church.
               </p>
               <ion-button fill="outline" color="light" (click)="reset()">
                 Give Again
@@ -171,9 +171,9 @@ import {
           </ion-button>
 
           <p class="muted">
-            Secure giving via Stripe / Tithe.ly once connected. The church
-            never sees your card number, and no card details are stored in
-            this app.
+            Secure giving will be connected by the church. The church never
+            sees your card number, and no card details are stored in this
+            app.
           </p>
         }
       </div>

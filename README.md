@@ -1,7 +1,13 @@
-# Church App — Ionic + Capacitor + Angular 19
+# Antioch Church of Colorado — App (Ionic + Capacitor + Angular 19)
 
-Local church app focused on **(1) church info** and **(2) giving**.
+Church app for **Antioch Church of Colorado** (14100 East Jewell Ave,
+Aurora, CO 80012 — (720) 434-1126 / (720) 207-7720), focused on
+**(1) church info** and **(2) giving**.
 One codebase, native iOS + Android apps via Capacitor.
+
+Live web preview: https://antiochcolorado-eight.vercel.app/tabs/home
+(Vercel auto-deploys from GitHub `main` — push to `main` and the
+preview updates.)
 
 - **Frontend:** Angular 19 (standalone components), TypeScript, Ionic 8
 - **Native wrapper:** Capacitor 7 — `com.webinnovativetech.churchapp`
@@ -17,7 +23,7 @@ One codebase, native iOS + Android apps via Capacitor.
 
 | Tab | What it does |
 | --- | --- |
-| **Home** | Church name, tagline, next-service countdown (Sun 10 AM / Wed 7 PM), service times, address, quick actions |
+| **Home** | Church logo, tagline, Amharic vision, office hours, address, phones, Get Directions, quick actions (all navigate) |
 | **Sermons** | Sample sermons — title, speaker, date, duration, scripture, play button (opens `mediaUrl` when set) |
 | **Events** | Sample events — date, time, location, category, RSVP toggle (local state only for now) |
 | **Give** | Fund selector (Tithe / Offering / Missions / Building Fund), $10/$25/$50/$100 chips + custom amount, one-time/monthly toggle, donor name/email, confirmation state |

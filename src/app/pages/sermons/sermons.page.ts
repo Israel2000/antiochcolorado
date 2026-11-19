@@ -35,7 +35,7 @@ import { CHURCH_INFO, SAMPLE_SERMONS } from '../../data/church-data';
     IonIcon,
   ],
   template: `
-    <ion-header>
+    <ion-header [translucent]="false">
       <ion-toolbar>
         <img
           slot="start"
@@ -49,10 +49,7 @@ import { CHURCH_INFO, SAMPLE_SERMONS } from '../../data/church-data';
 
     <ion-content>
       <div class="page-pad">
-        <p class="muted">
-          Recent messages from {{ churchName }}. Tap play when an audio or
-          YouTube link has been added.
-        </p>
+        <p class="muted">Recent messages from {{ churchName }}.</p>
 
         @if (notice) {
           <ion-card color="light">
@@ -67,6 +64,9 @@ import { CHURCH_INFO, SAMPLE_SERMONS } from '../../data/church-data';
                 <h2>{{ sermon.title }}</h2>
                 <p>{{ sermon.speaker }} · {{ sermon.date }}</p>
                 <p>{{ sermon.scripture }} · {{ sermon.description }}</p>
+                @if (!sermon.mediaUrl) {
+                  <p class="coming-soon">Video coming soon</p>
+                }
               </ion-label>
               <ion-note slot="end">{{ sermon.duration }}</ion-note>
               <ion-button
@@ -80,16 +80,17 @@ import { CHURCH_INFO, SAMPLE_SERMONS } from '../../data/church-data';
             </ion-item>
           }
         </ion-list>
-
-        <p class="muted">
-          TODO: paste each sermon’s YouTube URL or audio MP3 URL into
-          <code>mediaUrl</code> in
-          <code>src/app/data/church-data.ts</code> — the play button will then
-          open it.
-        </p>
       </div>
     </ion-content>
   `,
+  styles: [
+    `
+      .coming-soon {
+        color: var(--ion-color-secondary);
+        font-weight: 600;
+      }
+    `,
+  ],
 })
 export class SermonsPage {
   sermons = SAMPLE_SERMONS;
@@ -102,7 +103,8 @@ export class SermonsPage {
 
   playSermon(id: number, title: string, mediaUrl: string): void {
     if (!mediaUrl) {
-      this.notice = `"${title}" — audio / video link coming soon. Add a YouTube or MP3 link in church-data.ts to enable playback.`;
+      // No video linked yet — mediaUrl is '' until the church provides a link.
+      this.notice = `"${title}" — the video isn't available yet. Please check back soon.`;
       return;
     }
     this.notice = '';
